@@ -6,11 +6,18 @@ function capitalizeFirstChar (str) {
 }
 
 function adaptParams (params) {
-	return _.reduce(params, function(result, value, key) {
+	if (_.isEmpty(_.keys(params))) {
+		return params;
+	}
+
+	var adaptedParams = _.isArray(params) ? [] : {};
+
+	_.forOwn(params, function (value, key) {
 		var adaptedKey = capitalizeFirstChar(key);
-		result[adaptedKey] = value;
-		return result;
-	}, {});
+		adaptedParams[adaptedKey] = adaptParams(value);
+	});
+
+	return adaptedParams;
 }
 
 function adaptMethod (method) {
@@ -21,12 +28,12 @@ function adaptMethod (method) {
 }
 
 function adaptService (service) {
-	for (var method in service.prototype) {
-		service.prototype[method] = adaptMethod(service.prototype[method]);
-	}
+	_.forOwn(service.prototype, function (method, methodName) {
+		service.prototype[methodName] = adaptMethod(method);
+	});
 	return service;
 }
 
-module.exports = (function() {
+module.exports = (function () {
 	return adaptService(ExpertSender);
 })();
