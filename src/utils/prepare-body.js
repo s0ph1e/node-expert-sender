@@ -1,10 +1,6 @@
 var xml = require('xml');
 
 function prepareBody (data) {
-	var Key = data.key;
-	var Type = data.type;
-	var Data = data.data;
-
 	var body = {
 		ApiRequest: [
 			{
@@ -13,12 +9,12 @@ function prepareBody (data) {
 					'xmlns:xs': "http://www.w3.org/2001/XMLSchema"
 				}
 			}, {
-				ApiKey: Key
+				ApiKey: data.Key
 			}, {
 				Data: [
 					{
 						_attr: {
-							'xsi:type': Type
+							'xsi:type': data._type
 						}
 					}
 				]
@@ -26,10 +22,10 @@ function prepareBody (data) {
 		]
 	};
 
-	for (var property in Data) {
+	for (var property in data) {
 		var key = property;
 		var newOption = {};
-		newOption[key] = Data[key];
+		newOption[key] = data[key];
 		body.ApiRequest[2].Data.push(newOption);
 	}
 

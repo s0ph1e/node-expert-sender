@@ -17,16 +17,10 @@ function makeRequest (method, url, body) {
 	});
 
 	return request(options).then(function (response) {
-		var statusCode = response[0].statusCode;
-		if (statusCode >= 200 && statusCode < 300) {
-			return Promise.resolve('success');
-		} else {
-			// TODO: return error message from body
-			throw new Error(statusCode);
-		}
+		return Promise.resolve(response[0].body);
 	});
 }
 
 module.exports = {
-	post: makeRequest.bind(null, 'post')
+	makeRequest: makeRequest
 };
