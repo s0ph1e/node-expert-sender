@@ -1,6 +1,6 @@
 var xml = require('xml');
 
-function prepareRequestBody (data) {
+function prepareBody (data) {
 	var Key = data.key;
 	var Type = data.type;
 	var Data = data.data;
@@ -36,4 +36,4 @@ function prepareRequestBody (data) {
 	return xml(body, true);
 }
 
-module.exports = prepareRequestBody;
+module.exports = prepareBody;

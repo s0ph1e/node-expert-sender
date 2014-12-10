@@ -1,5 +1,5 @@
 var url = require('url');
-var prepareRequestBody = require('./prepare-request-body');
+var prepareBody = require('./utils/prepare-body');
 var endpoints = require('./enums/endpoints');
 var types = require('./enums/types');
 var modes = require('./enums/modes');
@@ -21,7 +21,7 @@ ExpertSender.prototype.addUserToList = function addUserToList (data) {
 		data: data
 	};
 
-	var body = prepareRequestBody(params);
+	var body = prepareBody(params);
 	var endpoint = url.resolve(this.url, endpoints.subscribers);
 
 	return transport.post(endpoint, body);
