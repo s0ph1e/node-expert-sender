@@ -1,46 +1,62 @@
+var Promise = require('bluebird');
 var _ = require('lodash');
 var url = require('url');
-var Promise = require('bluebird');
-
-var ExpertSender = require('./expert-sender-api-methods');
-var prepareBody = require('./utils/prepare-body');
 var transport = require('./utils/transport');
+var prepareBody = require('./utils/prepare-body');
 
-function capitalizeFirstChar (str) {
-	return str.substr(0, 1).toUpperCase() + str.substr(1);
-}
+var getTypeByValue = require('./utils/utils').getTypeByValue;
+var addType = require('./utils/utils').addTypeAttribute;
 
-function adaptParams (params) {
-	if (_.isEmpty(_.keys(params))) {
-		return params;
+// Enums
+var endpoints = require('./enums/endpoints');
+var methods = require('./enums/methods');
+var dataTypes = require('./enums/dataTypes');
+var modes = require('./enums/modes');
+var types = require('./enums/types');
+
+
+function ExpertSender (config) {
+	this.url = config.url;
+	this.key = config.key;
+
+	this.modes = modes;
+	this.dataTypes = dataTypes;
+	this.endpoints = endpoints;
+	this.methods = methods;
+	this.types = types;
+
+	this.createBodyOptions = function createBodyOptions (data, type) {
+		var bodyApiKey = { ApiKey: this.key };
+		var bodyData = addType({ Data: data }, type);
+		return [ bodyApiKey, bodyData ];
 	}
-
-	var adaptedParams = _.isArray(params) ? [] : {};
-	_.forOwn(params, function (value, key) {
-		var adaptedKey = capitalizeFirstChar(key);
-		adaptedParams[adaptedKey] = adaptParams(value);
-	});
-	return adaptedParams;
 }
 
-function adaptMethod (method) {
-	return function adaptedMethod (params) {
-		var adaptedParams = adaptParams(params);
-		return method.call(this, adaptedParams).then(function afterGetMethodParams (params) {
-			var body = prepareBody(params.body);
-			return Promise.resolve(body);
-			//return transport.makeRequest(params.method, params.url, body);
-		});
+ExpertSender.prototype.addUserToList = function addUserToList (data) {
+	var bodyData = _.clone(data, true);
+
+	// Transform Properties
+	_.forOwn(bodyData.Properties, function(property, key) {
+		var propId = { Id: property.Id };
+		var propValue = { Value: property.Value };
+		propValue = addType(propValue, getTypeByValue(property.value));
+
+		bodyData.Properties[key] = {
+			Property: [propId, propValue]
+		}
+	});
+
+	var bodyOptions = this.createBodyOptions(bodyData, this.dataTypes.subscriber);
+
+	var params = {
+		url: url.resolve(this.url, this.endpoints.subscribers),
+		method: this.methods.post,
+		body: prepareBody(bodyOptions)
 	};
-}
 
-function adaptService (service) {
-	_.each(service.prototype, function (method, methodName) {
-		service.prototype[methodName] = adaptMethod(method);
-	});
-	return service;
-}
+	return Promise.resolve(params.body);
+	//return transport.makeRequest(params.method, params.url, params.body);
 
-module.exports = (function () {
-	return adaptService(ExpertSender);
-})();
+};
+
+module.exports = ExpertSender;

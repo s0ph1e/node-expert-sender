@@ -1,7 +1,9 @@
+var _ = require('lodash');
 var types = require('../enums/types');
+var config = require('../config/config');
 
 // TODO: think about date & dateTime?
-function getType (value) {
+function getTypeByValue (value) {
 	var typeOf = typeof value;
 	var type;
 	switch (typeOf) {
@@ -24,6 +26,19 @@ function getType (value) {
 	return type;
 }
 
+function addTypeAttribute (obj, type) {
+	var objWithType = _.clone(obj);
+	objWithType[config.attributeKey] = {};
+	objWithType[config.attributeKey][config.typeAttributeName] = type;
+	return objWithType;
+}
+
+function capitalizeFirstChar (str) {
+	return str.substr(0, 1).toUpperCase() + str.substr(1);
+}
+
 module.exports = {
-	getTypeByValue: getType
+	getTypeByValue: getTypeByValue,
+	addTypeAttribute: addTypeAttribute,
+	capitalizeFirstChar: capitalizeFirstChar
 };

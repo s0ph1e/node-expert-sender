@@ -9,11 +9,7 @@ function prepareBody (data) {
 			'xmlns:xs': "http://www.w3.org/2001/XMLSchema"
 		},
 
-		ApiRequest: [
-			{
-				ApiKey: data.key
-			}, data.data
-		]
+		ApiRequest: data
 	};
 
 	return xml(body, { attributes_key: config.attributeKey });
