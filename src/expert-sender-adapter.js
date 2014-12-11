@@ -30,6 +30,4 @@ function adaptService (service) {
 	return service;
 }
 
-module.exports = (function () {
-	return adaptService(ExpertSender);
-})();
+module.exports = adaptService(ExpertSender);
