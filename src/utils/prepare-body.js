@@ -1,35 +1,22 @@
-var xml = require('xml');
+var xml = require('json2xml');
+var _ = require('lodash');
+var config = require('../config/config');
 
 function prepareBody (data) {
 	var body = {
+		_attr: {
+			'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+			'xmlns:xs': "http://www.w3.org/2001/XMLSchema"
+		},
+
 		ApiRequest: [
 			{
-				_attr: {
-					'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-					'xmlns:xs': "http://www.w3.org/2001/XMLSchema"
-				}
-			}, {
-				ApiKey: data.Key
-			}, {
-				Data: [
-					{
-						_attr: {
-							'xsi:type': data._type
-						}
-					}
-				]
-			}
+				ApiKey: data.key
+			}, data.data
 		]
 	};
 
-	for (var property in data) {
-		var key = property;
-		var newOption = {};
-		newOption[key] = data[key];
-		body.ApiRequest[2].Data.push(newOption);
-	}
-
-	return xml(body, true);
+	return xml(body, { attributes_key: config.attributeKey });
 }
 
 module.exports = prepareBody;
