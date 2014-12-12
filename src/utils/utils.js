@@ -33,12 +33,7 @@ function addTypeAttribute (obj, type) {
 	return objWithType;
 }
 
-function capitalizeFirstChar (str) {
-	return str.substr(0, 1).toUpperCase() + str.substr(1);
-}
-
 module.exports = {
 	getTypeByValue: getTypeByValue,
-	addTypeAttribute: addTypeAttribute,
-	capitalizeFirstChar: capitalizeFirstChar
+	addTypeAttribute: addTypeAttribute
 };

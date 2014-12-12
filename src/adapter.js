@@ -1,7 +1,8 @@
 var _ = require('lodash');
 
-var ExpertSender = require('./expert-sender');
-var capitalizeFirstChar = require('./utils/utils').capitalizeFirstChar;
+function capitalizeFirstChar (str) {
+	return str.substr(0, 1).toUpperCase() + str.substr(1);
+}
 
 function adaptParams (params) {
 	if (_.isEmpty(_.keys(params))) {
@@ -30,4 +31,4 @@ function adaptService (service) {
 	return service;
 }
 
-module.exports = adaptService(ExpertSender);
+module.exports = adaptService;

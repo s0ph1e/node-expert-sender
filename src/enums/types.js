@@ -1,8 +1,9 @@
-var types = {};
-types['boolean'] = 'xs:boolean';
-types['string'] = 'xs:string';
-types['int'] = 'xs:int';
-types['date'] = 'xs:date';
-types['dateTime'] = 'xs:dateTime';
+var types = {
+	boolean: 'xs:boolean',
+	string: 'xs:string',
+	int: 'xs:int',
+	date: 'xs:date',
+	dateTime: 'xs:dateTime'
+};
 
 module.exports = types;

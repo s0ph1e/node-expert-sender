@@ -12,6 +12,7 @@
     "lodash": "~2.4.1",
     "request": "~2.50.0",
     "bluebird": "~2.3.11",
-    "json2xml": "~0.1.1"
+    "json2xml": "~0.1.1",
+    "xml2json": "~0.5.1"
   }
 }
