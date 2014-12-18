@@ -37,7 +37,7 @@ Add subscriber to list
 * `listId` - id of list *(required)*
 * `id` - user id (if you want to change subscriber's email)
 * `firstName` - subscriber's first name
-* `lastName` - subscriber's first name
+* `lastName` - subscriber's last name
 * `name` - subscriber's full name (first name + last name)
 * `trackingCode` - id of source (form, web-site, etc.)
 * `vendor` - id/name of traffic type
@@ -53,7 +53,7 @@ expertSender.addUserToList({
 	ip: '127.0.0.1',
 	properties: [
 		{ id: 1, value: 'qwerty' },
-		{id: 100, value: 123 }
+		{ id: 100, value: 123 }
 	]
 });
 ```
