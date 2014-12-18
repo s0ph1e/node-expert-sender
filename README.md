@@ -26,7 +26,7 @@ expertSender.addUserToList({
 });
 ```
 
-Mehods
+Methods
 -------
 
 ###addUserToList(options)
