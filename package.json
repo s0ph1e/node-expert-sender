@@ -1,18 +1,31 @@
 {
   "name": "expert-sender",
   "version": "0.0.1",
-  "description": "",
+  "description": "API for Expert Sender",
+  "readmeFilename": "README.md",
   "main": "index.js",
+  "dependencies": {
+    "bluebird": "~2.3.11",
+    "json2xml": "~0.1.1",
+    "lodash": "~2.4.1",
+    "request": "~2.50.0",
+    "xml2json": "~0.5.1"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/s0ph1e/node-expert-sender.git"
+  },
+  "keywords": [
+    "API",
+    "ExpertSender"
+  ],
+  "author": "s0ph1e",
   "license": "BSD-2-Clause",
-  "dependencies": {
-    "lodash": "~2.4.1",
-    "request": "~2.50.0",
-    "bluebird": "~2.3.11",
-    "json2xml": "~0.1.1",
-    "xml2json": "~0.5.1"
+  "bugs": {
+    "url": "https://github.com/s0ph1e/node-expert-sender/issues"
   }
 }
