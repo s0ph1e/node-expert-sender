@@ -2,17 +2,13 @@ var _ = require('lodash');
 var url = require('url');
 var Promise = require('bluebird');
 var transport = require('./utils/transport');
-var prepareOptions = require('./prepare-options');
+var options = require('./prepare-options');
 var createBody = require('./utils/xml-body').create;
 var parseBody = require('./utils/xml-body').parse;
 
-var methods = [
-	'addUserToList'
-];
-
-function call (methodName) {
+function call (f) {
 	return function (data) {
-		var methodOptions = prepareOptions[methodName](data);
+		var methodOptions = f(data);
 
 		var methodBody = createBody({
 			key: this.key,
@@ -45,8 +41,8 @@ function ExpertSender (config) {
 	this.key = config.key;
 }
 
-_.forEach(methods, function (methodName) {
-	ExpertSender.prototype[methodName] = call(methodName);
+_.forIn(options, function (method, name) {
+	ExpertSender.prototype[name] = call(method);
 });
 
 module.exports = ExpertSender;
