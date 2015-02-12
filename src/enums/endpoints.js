@@ -1,5 +1,6 @@
 var endopoints = {
-	subscribers: '/Api/Subscribers'
+	subscribers: '/Api/Subscribers',
+	lists: '/Api/Lists'
 };
 
 module.exports = endopoints;

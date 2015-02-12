@@ -27,6 +27,13 @@ var options = {
 			type: dataTypes.subscriber,
 			data: bodyData
 		}
+	},
+
+	getLists: function getLists(data, key) {
+		return {
+			method: 'GET',
+			endpoint: endpoints.lists + '?apiKey=' + key
+		}
 	}
 };
 
