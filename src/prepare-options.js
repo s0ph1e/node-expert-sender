@@ -6,6 +6,13 @@ var addType = require('./utils/utils').addTypeAttribute;
 var endpoints = require('./enums/endpoints');
 var dataTypes = require('./enums/dataTypes');
 
+function composeQueryString(data) {
+	var qs = Object.keys(data).map(function(key) {
+		return [key, data[key]].map(encodeURIComponent).join('=');
+	}).join('&');
+	return '?' + qs;
+}
+
 var options = {
 	addUserToList: function addUserToList(data) {
 		var bodyData = _.clone(data, true);
@@ -30,9 +37,11 @@ var options = {
 	},
 
 	getLists: function getLists(data, key) {
+		var queryData = _.extend(data, { apiKey: key });
+
 		return {
 			method: 'GET',
-			endpoint: endpoints.lists + '?apiKey=' + key
+			endpoint: endpoints.lists + composeQueryString(queryData)
 		}
 	}
 };
