@@ -5,6 +5,8 @@ var transport = require('./utils/transport');
 var options = require('./prepare-options');
 var createBody = require('./utils/xml-body').create;
 var parseBody = require('./utils/xml-body').parse;
+var adaptParams = require('./utils/adapt').adaptParams;
+var adaptResult = require('./utils/adapt').adaptResult;
 
 function call (f) {
 	return function (data) {
@@ -15,14 +17,16 @@ function call (f) {
 			methodBody = createBody({
 				key: this.key,
 				type: methodOptions.type,
-				data: methodOptions.data
+				data: adaptParams(methodOptions.data)
 			});
 		}
 
 		var methodUrl = url.resolve(this.url, methodOptions.endpoint);
 		var method = methodOptions.method;
 
-		return sendRequest(method, methodUrl, methodBody).then(handleResponse);
+		return sendRequest(method, methodUrl, methodBody)
+			.then(handleResponse)
+			.then(adaptResult);
 	}
 }
 

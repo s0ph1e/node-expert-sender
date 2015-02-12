@@ -29,18 +29,7 @@ function adaptResult (res) {
 	return transformObject(res, firstCharToLowerCase);
 }
 
-function adaptMethod (method) {
-	return function adaptedMethod (params) {
-		var adaptedParams = adaptParams(params);
-		return method.call(this, adaptedParams).then(adaptResult);
-	};
+module.exports = {
+	adaptParams: adaptParams,
+	adaptResult: adaptResult
 }
-
-function adaptService (service) {
-	_.each(service.prototype, function (method, methodName) {
-		service.prototype[methodName] = adaptMethod(method);
-	});
-	return service;
-}
-
-module.exports = adaptService;
