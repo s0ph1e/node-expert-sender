@@ -36,6 +36,15 @@ var options = {
 		}
 	},
 
+	getUser: function getUser(data, key) {
+		var queryData = _.extend(data, { apiKey: key });
+
+		return {
+			method: 'GET',
+			endpoint: endpoints.subscribers + composeQueryString(queryData)
+		}
+	},
+
 	getLists: function getLists(data, key) {
 		var queryData = _.extend(data, { apiKey: key });
 
