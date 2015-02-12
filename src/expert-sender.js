@@ -8,13 +8,16 @@ var parseBody = require('./utils/xml-body').parse;
 
 function call (f) {
 	return function (data) {
-		var methodOptions = f(data);
+		var methodOptions = f(data, this.key);
+		var methodBody;
 
-		var methodBody = createBody({
-			key: this.key,
-			type: methodOptions.type,
-			data: methodOptions.data
-		});
+		if (methodOptions.type && methodOptions.data) {
+			methodBody = createBody({
+				key: this.key,
+				type: methodOptions.type,
+				data: methodOptions.data
+			});
+		}
 
 		var methodUrl = url.resolve(this.url, methodOptions.endpoint);
 		var method = methodOptions.method;
@@ -29,11 +32,10 @@ function sendRequest (method, url, body) {
 
 function handleResponse (response) {
 	var res = parseBody(response);
-	var error = (res.ApiResponse && res.ApiResponse.ErrorMessage) ? res.ApiResponse.ErrorMessage : null;
-	if (error) {
-		return Promise.reject(new Error(error.Message));
+	if (res.error) {
+		return Promise.reject(new Error(res.error.Message));
 	}
-	return Promise.resolve();
+	return Promise.resolve(res.data);
 }
 
 function ExpertSender (config) {
