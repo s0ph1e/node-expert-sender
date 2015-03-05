@@ -29,9 +29,9 @@ expertSender.addUserToList({
 Methods
 -------
 
-###addUserToList(options)
+### addUserToList(options)
 Add subscriber to list
-####Parameters
+#### Parameters
 `options` may contain next properties:
 * `email` - subscriber's email *(required)*
 * `listId` - id of list *(required)*
