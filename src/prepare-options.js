@@ -17,14 +17,14 @@ var options = {
 	addUserToList: function addUserToList(data) {
 		var bodyData = _.clone(data, true);
 
-		// Transform Properties
-		_.forOwn(bodyData.Properties, function(property, key) {
-			var propId = { Id: property.Id };
-			var propValue = { Value: property.Value };
+		// Transform properties
+		_.forOwn(bodyData.properties, function(property, key) {
+			var propId = { id: property.id };
+			var propValue = { value: property.value };
 			propValue = addType(propValue, getTypeByValue(property.value));
 
-			bodyData.Properties[key] = {
-				Property: [propId, propValue]
+			bodyData.properties[key] = {
+				property: [propId, propValue]
 			}
 		});
 

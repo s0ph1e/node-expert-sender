@@ -16,7 +16,10 @@ function create (jsonData) {
 
 	var bodyKey = { ApiKey: jsonData.key };
 	var bodyData = { Data: jsonData.data };
-	bodyData = addType(bodyData, jsonData.type);
+
+	if (jsonData.type) {
+		bodyData = addType(bodyData, jsonData.type);
+	}
 
 	body.ApiRequest.push(bodyKey, bodyData);
 

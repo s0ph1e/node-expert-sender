@@ -13,7 +13,7 @@ function call (f) {
 		var methodOptions = f(data, this.key);
 		var methodBody;
 
-		if (methodOptions.type && methodOptions.data) {
+		if (methodOptions.data) {
 			methodBody = createBody({
 				key: this.key,
 				type: methodOptions.type,
