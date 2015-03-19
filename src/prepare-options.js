@@ -1,17 +1,13 @@
 var _ = require('lodash');
-var getTypeByValue = require('./utils/utils').getTypeByValue;
-var addType = require('./utils/utils').addTypeAttribute;
+
+var utils = require('./utils/utils');
+var getTypeByValue = utils.getTypeByValue;
+var addType = utils.addTypeAttribute;
+var composeQueryString = utils.composeQueryString;
 
 // Enums
 var endpoints = require('./enums/endpoints');
 var dataTypes = require('./enums/dataTypes');
-
-function composeQueryString(data) {
-	var qs = Object.keys(data).map(function(key) {
-		return [key, data[key]].map(encodeURIComponent).join('=');
-	}).join('&');
-	return '?' + qs;
-}
 
 var options = {
 	addUserToList: function addUserToList(data) {
@@ -51,6 +47,32 @@ var options = {
 		return {
 			method: 'GET',
 			endpoint: endpoints.lists + composeQueryString(queryData)
+		}
+	},
+
+	createNewsletter: function(data, key) {
+		var bodyData = _.clone(data, true);
+		var listsTypes = ['subscriberLists', 'subscriberSegments', 'seedLists', 'suppressionLists'];
+
+		bodyData.recipients = _.pick(bodyData.recipients, listsTypes);
+
+		if (bodyData.recipients) {
+			_.forOwn(bodyData.recipients, function(recipientsListArray, recipientsListName) {
+				// singularize, get name for list item
+				var listName = recipientsListName.substring(0, recipientsListName.length - 1);
+
+				_.forOwn(recipientsListArray, function(recipientsListItem, key) {
+					var list = {};
+					list[listName] = recipientsListItem;
+					recipientsListArray[key] = list;
+				});
+			})
+		}
+
+		return {
+			method: 'POST',
+			endpoint: endpoints.newsletters,
+			data: bodyData
 		}
 	}
 };

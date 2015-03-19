@@ -33,7 +33,15 @@ function addTypeAttribute (obj, type) {
 	return objWithType;
 }
 
+function composeQueryString(data) {
+	var qs = Object.keys(data).map(function(key) {
+		return [key, data[key]].map(encodeURIComponent).join('=');
+	}).join('&');
+	return '?' + qs;
+}
+
 module.exports = {
 	getTypeByValue: getTypeByValue,
-	addTypeAttribute: addTypeAttribute
+	addTypeAttribute: addTypeAttribute,
+	composeQueryString: composeQueryString
 };
