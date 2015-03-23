@@ -57,6 +57,7 @@ expertSender.addUserToList({
 	]
 });
 ```
+---------------
 
 ### getLists(options)
 #### Parameters
@@ -69,6 +70,7 @@ expertSender.getLists({
 	seedLists: true
 });
 ```
+---------------
 
 ### getUser(options)
 Receive short, long, fully information about user or event history
@@ -84,6 +86,7 @@ expertSender.getUser({
 	options: 'Full'
 });
 ```
+---------------
 
 ### createNewsletter(options)
 Send email to specified recipients
@@ -116,6 +119,7 @@ expertSender.createNewsletter({
 	}
 });
 ```
+---------------
 
 ## Note
 ExpertSender API documentation is [here](http://manual.expertsender.ru/api).
