@@ -74,6 +74,28 @@ var options = {
 			endpoint: endpoints.newsletters,
 			data: bodyData
 		}
+	},
+
+	sendTransactional: function (data) {
+		var bodyData = _.clone(_.pick(data, ['returnGuid', 'receiver', 'snippets', 'attachments']), true);
+		var transactionId = data.transactionId;
+
+		['snippets', 'attachments'].forEach(function (propsName) {
+			if (bodyData[propsName]) {
+				var propName = propsName.substring(0, propsName.length - 1);
+				bodyData[propsName] = bodyData[propsName].map(function (prop) {
+					var output = {};
+					output[propName] = prop;
+					return output;
+				});
+			}
+		});
+
+		return {
+			method: 'POST',
+			endpoint: endpoints.transactionals + '/' + transactionId,
+			data: bodyData
+		};
 	}
 };
 
