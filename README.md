@@ -121,5 +121,29 @@ expertSender.createNewsletter({
 ```
 ---------------
 
+### sendTransactional(options)
+Send email to specified recipients
+#### Parameters
+`options` contains:
+* `transactionId` - integer, *(required)* 
+* `receiver` - object, must contain at least one of `id` and `email`. May contain `listId`. *(required)*
+* `returnGuid` - boolean. Default value is `false`.
+* `snippets` - array of `{name: 'snippetName', value: 'snippetValue'}` pairs. 
+* `attachments` - array of `{fileName: 'name', mimeType: 'type', content: 'base64-encoded string'}` tuples. 
+
+#### Example
+```javascript
+expertSender.sendTransactional({
+    transactionId: 1,
+	receiver: {
+		email: 'test@example.com' // should be in one of your lists
+	},
+	snippets: [
+	  {name: 'mySnippet', value: 42}
+	]
+});
+```
+---------------
+
 ## Note
 ExpertSender API documentation is [here](http://manual.expertsender.ru/api).
